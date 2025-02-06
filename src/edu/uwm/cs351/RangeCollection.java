@@ -17,8 +17,7 @@ public class RangeCollection extends AbstractCollection<Integer> {
 
 	@Override //Required
 	public Iterator<Integer> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new myIterator();
 	}
 
 	@Override //Required
@@ -26,4 +25,18 @@ public class RangeCollection extends AbstractCollection<Integer> {
 		return hi-lo;
 	}
 
+	private class myIterator implements Iterator<Integer>{
+        private int current = lo-1;
+		@Override //Required 
+		public boolean hasNext() {
+			return current + 1< hi;
+		}
+
+		@Override //Required
+		public Integer next() {
+			current++;
+			return current;
+		}
+		
+	}
 }
