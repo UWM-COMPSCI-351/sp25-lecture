@@ -4,7 +4,15 @@ import java.util.AbstractCollection;
 import java.util.Iterator;
 
 public class RangeCollection extends AbstractCollection<Integer> {
-     private final int hi, lo;
+    
+		@Override    //Efficiency
+ 	public boolean contains(Object o) {
+		if(!(o instanceof Integer)) return false;
+		Integer x = (Integer)o;
+		return lo <=x && x < hi;
+	}
+  
+	private final int hi, lo;
 	/**
 	 * Initiate a range collection from lo to hi
 	 * @param lo is lower inclusive limit
