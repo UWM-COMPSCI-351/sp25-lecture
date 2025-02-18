@@ -6,16 +6,35 @@ import java.util.Comparator;
  * @param E element type
  */
 public class InsertionSort<E> {
-	
+	 private final Comparator<E> comp;
 	/**
 	 * Initialize the utility using the given comparator
 	 * @param comp comparator to use, must not be null
 	 */
-	public InsertionSort(Comparator<E> comp) {}
+	public InsertionSort(Comparator<E> comp) {
+		this.comp = comp;
+	}
 	
 	/**
 	 * Sort the array.
 	 * @param array to sort, must not be null
 	 */
-	public void sort(E[] array) {}
+	public void sort(E[] array) {
+		// Sort the array by placing elements in their correct places
+		for(int currIdx = 1; currIdx< array.length;currIdx++) {
+			//Create temporary variable for Current Index value
+			E value = array[currIdx];
+			int prevIdx = currIdx -1;
+			/*Find the current place for a current value (value)
+			Stop when we reach the starting position or the 
+			previous element is smaller than the current
+			*/
+			while(prevIdx >=0 && comp.compare(array[prevIdx],value)>0) {
+				array[prevIdx+1] = array[prevIdx];
+				prevIdx--;
+			}
+			//Place the value in the correct identified slot
+			array[prevIdx+1] = value;
+		}
+	}
 }
