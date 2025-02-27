@@ -3,12 +3,22 @@ package edu.uwm.cs351;
 import java.util.AbstractCollection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayCollection<E> extends AbstractCollection<E> {
      private final int INITIAL_CAPACITY = 1; 
 	 @SuppressWarnings("unchecked")
 	private E[] makeArray(int cap) {
 		return (E[]) new Object[cap];
+	}
+
+	@Override //Efficiency
+	public void clear() {
+		 data = makeArray(INITIAL_CAPACITY);
+		 if(manyItems!=0) {
+			 manyItems = 0;
+			 version++;
+		 }
 	}
 
 	E[] data;
@@ -26,7 +36,8 @@ public class ArrayCollection<E> extends AbstractCollection<E> {
 	@Override //Implementation
 	public boolean add(E e) {
 		ensureCapacity(manyItems+1);
-		data[manyItems++] = e;
+		data[manyItems] = e;
+		manyItems++;
 		version++;
 		return true;
 	}
@@ -76,7 +87,18 @@ public class ArrayCollection<E> extends AbstractCollection<E> {
 		@Override //Required
 		public E next() {
 			checkVersion();
+			canRemove = true;
 			return data[++currentIndex];
+		}
+		@Override //Implementation
+		public void remove() {
+			if(!canRemove) throw new NoSuchElementException("Can't Remove");
+			 for(int index = currentIndex+1;index < manyItems;index++) {
+				 data[index-1] = data[index];
+			 }
+			 --manyItems;
+			 ++colVersion;
+			 canRemove = false;
 		}
 		
 	}
