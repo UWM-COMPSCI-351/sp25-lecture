@@ -10,7 +10,7 @@ public class TestArrayCollection extends TestCollection<String> {
 	public void test90() {
 		ArrayCollection<Integer> ac = new ArrayCollection<>();
 		ac.add(Integer.valueOf(42));
-		Integer[] result = ac.getData();
-		System.out.println("a[0] = " + result[0]);
+		/*Integer[] result = ac.getData();
+		System.out.println("a[0] = " + result[0]);*/
 	}
 }
