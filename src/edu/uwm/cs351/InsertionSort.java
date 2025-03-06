@@ -6,13 +6,14 @@ import java.util.Comparator;
  * @param E element type
  */
 public class InsertionSort<E> {
-	 private final Comparator<E> comp;
+	private final Comparator<E> comparator;
+	
 	/**
 	 * Initialize the utility using the given comparator
 	 * @param comp comparator to use, must not be null
 	 */
 	public InsertionSort(Comparator<E> comp) {
-		this.comp = comp;
+		comparator = comp;
 	}
 	
 	/**
@@ -29,12 +30,25 @@ public class InsertionSort<E> {
 			Stop when we reach the starting position or the 
 			previous element is smaller than the current
 			*/
-			while(prevIdx >=0 && comp.compare(array[prevIdx],value)>0) {
+			while(prevIdx >=0 && comparator.compare(array[prevIdx],value)>0) {
 				array[prevIdx+1] = array[prevIdx];
 				prevIdx--;
 			}
 			//Place the value in the correct identified slot
 			array[prevIdx+1] = value;
 		}
+/*
+		if (array.length < 2) return;
+		int u = 1;
+		while (u < array.length) {
+			E elem = array[u];
+			int hole = u;
+			while (hole >= 0 && comparator.compare(array[hole-1],elem) > 0) {
+				array[hole] = array[hole-1];
+				--hole;
+			}
+			++u;
+		}
+	*/
 	}
 }
