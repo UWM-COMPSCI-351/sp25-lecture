@@ -1,5 +1,7 @@
 package edu.uwm.cs351;
 
+import java.util.NoSuchElementException;
+
 public class Queue<E> {
 	private static final int INITIAL_CAPACITY=0;
 	private E[] queue;
@@ -36,8 +38,9 @@ public class Queue<E> {
 
 
 	public void enqueue(E data) {
+		if(data==null)throw new IllegalArgumentException("NUlls are not Allowed");
 		ensureCapacity(size()+1);
-		queue[(rear++)%queue.length] = data;
+		queue[rear] = data;
 	}
 
 
@@ -54,19 +57,19 @@ public class Queue<E> {
            }
            front=0;
            rear= cnt;
-           
+           queue = newQueue;
 	}
 
 
 	public E front() {
-		if(isEmpty()) throw new IllegalStateException("Empty Queue"); 
+		if(isEmpty()) throw new NoSuchElementException("Empty Queue"); 
 		return queue[front];
 	}
 
 
 	public E dequeue() {
 		if(isEmpty()) throw new IllegalStateException("Empty Queue"); 
-		return queue[front--];
+		return queue[front++];
 	}
 
 }
