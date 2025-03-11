@@ -3,7 +3,7 @@ package edu.uwm.cs351;
 import java.util.NoSuchElementException;
 
 public class Queue<E> {
-	private static final int INITIAL_CAPACITY=0;
+	private static final int INITIAL_CAPACITY=1;
 	private E[] queue;
 	private int front;
 	private int rear;
@@ -32,31 +32,43 @@ public class Queue<E> {
 	 * @return the size of queue
 	 */
 	public int size() {
-		if(rear>front) return rear-front;	
+		if(rear>=front) return rear-front;	
 		return queue.length-front+rear;
 	}
 
 
 	public void enqueue(E data) {
 		if(data==null)throw new IllegalArgumentException("NUlls are not Allowed");
+        System.out.println("BeQ"+front+" "+rear+"Size"+size());
 		ensureCapacity(size()+1);
-		queue[rear] = data;
+
+		queue[rear%queue.length] = data;
+		rear++;
+        System.out.println("AeQ"+front+" "+rear);
+
 	}
 
 
 	private void ensureCapacity(int cap) {
-           if(queue.length>cap) return;
+		    System.out.println("Length"+queue.length+"Cap"+cap);
+           if(queue.length>=cap) return;
            int newsize=0;
            if(cap>queue.length*2) newsize=cap;
            else
         	   newsize = queue.length*2;
            E[] newQueue = makeArray(newsize);
-           int cnt = 0;
-           while(front!=rear) {
-        	   newQueue[cnt++]= queue[front++];
+           int size;
+           if (rear >= front) {
+               size = rear - front;
            }
-           front=0;
-           rear= cnt;
+          else {
+               size = queue.length - front + rear;
+          }
+           for (int i = 0; i < size; i++) {
+               newQueue[i] = queue[(front + i) % queue.length];
+           }
+           front = 0;
+           rear = size;
            queue = newQueue;
 	}
 
@@ -69,7 +81,7 @@ public class Queue<E> {
 
 	public E dequeue() {
 		if(isEmpty()) throw new IllegalStateException("Empty Queue"); 
-		return queue[front++];
+		return queue[front++%queue.length];
 	}
 
 }
