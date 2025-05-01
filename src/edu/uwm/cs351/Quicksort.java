@@ -24,7 +24,35 @@ public class Quicksort<E> {
 	}
 
 	private void quickSort(List<E> result, int min, int max) {
-		// TODO
+		if (min >= max) return;
+		int p = partition(result, min, max);
+		quickSort(result, min, p-1);
+		quickSort(result, p+1, max);
 	}
 
+	private int partition(List<E> result, int min, int max) {
+		E pivot = result.get(min);
+		int hole = min;
+		++min;
+		while (min <= max) {
+			if (hole < min) {
+				E elem = result.get(max);
+				if (comparator.compare(elem, pivot) < 0) {
+					result.set(hole, elem);
+					hole = max;
+				}
+				--max;
+			} else {
+				assert hole > max;
+				E elem = result.get(min);
+				if (comparator.compare(elem, pivot) > 0) {
+					result.set(hole, elem);
+					hole = min;
+				}
+				++min;
+			}
+		}
+		result.set(hole, pivot);
+		return hole;
+	}
 }
